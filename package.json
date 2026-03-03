@@ -1,0 +1,27 @@
+{
+  "name": "@sudobility/entity_pages_rn",
+  "version": "0.0.1",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "bunx tsc -p tsconfig.build.json",
+    "typecheck": "bunx tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-native": ">=0.74",
+    "@tanstack/react-query": ">=5",
+    "@sudobility/entity_client": "*",
+    "@sudobility/types": "*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "typescript": "^5.5.0",
+    "react": "^18.2.0",
+    "react-native": "^0.81.0",
+    "@tanstack/react-query": "^5.0.0",
+    "@sudobility/entity_client": "*",
+    "@sudobility/types": "*"
+  }
+}
