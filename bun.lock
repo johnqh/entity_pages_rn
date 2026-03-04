@@ -5,8 +5,6 @@
     "": {
       "name": "@sudobility/entity_pages_rn",
       "devDependencies": {
-        "@sudobility/entity_client": "^0.0.25",
-        "@sudobility/types": "^1.9.55",
         "@tanstack/react-query": "^5.0.0",
         "@types/react": "^18.2.0",
         "react": "^18.2.0",
