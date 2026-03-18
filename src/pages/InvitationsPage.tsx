@@ -20,8 +20,17 @@ export interface InvitationsPageProps {
   onInvitationAccepted?: () => void;
 }
 
-export function InvitationsPage({ client, onInvitationAccepted }: InvitationsPageProps) {
-  const { data: invitations, isLoading, isError, error, refetch } = useMyInvitations(client);
+export function InvitationsPage({
+  client,
+  onInvitationAccepted,
+}: InvitationsPageProps) {
+  const {
+    data: invitations,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useMyInvitations(client);
   const acceptInvitation = useAcceptInvitation(client);
   const declineInvitation = useDeclineInvitation(client);
 
@@ -52,7 +61,7 @@ export function InvitationsPage({ client, onInvitationAccepted }: InvitationsPag
   if (isLoading) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
@@ -60,7 +69,9 @@ export function InvitationsPage({ client, onInvitationAccepted }: InvitationsPag
   if (isError) {
     return (
       <View style={styles.center}>
-        <Text style={styles.errorText}>{error?.message || 'Failed to load'}</Text>
+        <Text style={styles.errorText}>
+          {error?.message || 'Failed to load'}
+        </Text>
         <TouchableOpacity style={styles.retryButton} onPress={() => refetch()}>
           <Text style={styles.retryButtonText}>Retry</Text>
         </TouchableOpacity>
@@ -81,11 +92,13 @@ export function InvitationsPage({ client, onInvitationAccepted }: InvitationsPag
 
       <FlatList
         data={invitations ?? []}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <View style={styles.invitationItem}>
             <View style={styles.invitationInfo}>
-              <Text style={styles.entityName}>{item.entity?.displayName ?? 'Organization'}</Text>
+              <Text style={styles.entityName}>
+                {item.entity?.displayName ?? 'Organization'}
+              </Text>
               <Text style={styles.invitationRole}>Role: {item.role}</Text>
             </View>
             <View style={styles.invitationActions}>
@@ -97,7 +110,10 @@ export function InvitationsPage({ client, onInvitationAccepted }: InvitationsPag
                 <Text style={styles.declineText}>Decline</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.acceptButton, acceptInvitation.isPending && styles.buttonDisabled]}
+                style={[
+                  styles.acceptButton,
+                  acceptInvitation.isPending && styles.buttonDisabled,
+                ]}
                 onPress={() => handleAccept(item.token)}
                 disabled={acceptInvitation.isPending}
               >
@@ -118,24 +134,69 @@ export function InvitationsPage({ client, onInvitationAccepted }: InvitationsPag
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24 },
-  header: { flexDirection: 'row', alignItems: 'center', padding: 16, borderBottomWidth: 1, borderBottomColor: '#e5e5e5', gap: 8 },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e5e5e5',
+    gap: 8,
+  },
   title: { fontSize: 20, fontWeight: '700', color: '#111' },
-  badge: { backgroundColor: '#2563eb', borderRadius: 10, paddingHorizontal: 8, paddingVertical: 2 },
+  badge: {
+    backgroundColor: '#2563eb',
+    borderRadius: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+  },
   badgeText: { color: '#fff', fontSize: 12, fontWeight: '700' },
-  invitationItem: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16, borderBottomWidth: 1, borderBottomColor: '#f3f4f6' },
+  invitationItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
+  },
   invitationInfo: { flex: 1 },
   entityName: { fontSize: 16, fontWeight: '600', color: '#111' },
-  invitationRole: { fontSize: 13, color: '#6b7280', marginTop: 2, textTransform: 'capitalize' },
+  invitationRole: {
+    fontSize: 13,
+    color: '#6b7280',
+    marginTop: 2,
+    textTransform: 'capitalize',
+  },
   invitationActions: { flexDirection: 'row', gap: 8 },
-  declineButton: { paddingHorizontal: 12, paddingVertical: 8, borderRadius: 6, borderWidth: 1, borderColor: '#d1d5db' },
+  declineButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#d1d5db',
+  },
   declineText: { fontSize: 13, fontWeight: '600', color: '#6b7280' },
-  acceptButton: { paddingHorizontal: 12, paddingVertical: 8, borderRadius: 6, backgroundColor: '#2563eb' },
+  acceptButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 6,
+    backgroundColor: '#2563eb',
+  },
   acceptText: { fontSize: 13, fontWeight: '600', color: '#fff' },
   buttonDisabled: { opacity: 0.5 },
   empty: { padding: 40, alignItems: 'center' },
   emptyText: { fontSize: 14, color: '#9ca3af' },
   errorText: { fontSize: 14, color: '#ef4444', marginBottom: 12 },
-  retryButton: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 6, backgroundColor: '#2563eb' },
+  retryButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 6,
+    backgroundColor: '#2563eb',
+  },
   retryButtonText: { color: '#fff', fontWeight: '600' },
 });

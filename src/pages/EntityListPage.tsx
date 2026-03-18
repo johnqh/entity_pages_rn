@@ -10,10 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import type { EntityClient } from '@sudobility/entity_client';
-import {
-  useEntities,
-  useCreateEntity,
-} from '@sudobility/entity_client';
+import { useEntities, useCreateEntity } from '@sudobility/entity_client';
 
 export interface EntityListPageProps {
   client: EntityClient;
@@ -24,9 +21,15 @@ export interface EntityListPageProps {
 export function EntityListPage({
   client,
   onSelectEntity,
-  onNavigateToSettings,
+  onNavigateToSettings: _onNavigateToSettings,
 }: EntityListPageProps) {
-  const { data: entities, isLoading, isError, error, refetch } = useEntities(client);
+  const {
+    data: entities,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useEntities(client);
   const createEntity = useCreateEntity(client);
   const [showCreate, setShowCreate] = useState(false);
   const [newName, setNewName] = useState('');
@@ -45,7 +48,7 @@ export function EntityListPage({
   if (isLoading) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
@@ -53,7 +56,9 @@ export function EntityListPage({
   if (isError) {
     return (
       <View style={styles.center}>
-        <Text style={styles.errorText}>{error?.message || 'Failed to load'}</Text>
+        <Text style={styles.errorText}>
+          {error?.message || 'Failed to load'}
+        </Text>
         <TouchableOpacity style={styles.retryButton} onPress={() => refetch()}>
           <Text style={styles.retryButtonText}>Retry</Text>
         </TouchableOpacity>
@@ -77,7 +82,7 @@ export function EntityListPage({
         <View style={styles.createForm}>
           <TextInput
             style={styles.input}
-            placeholder="Organization name"
+            placeholder='Organization name'
             value={newName}
             onChangeText={setNewName}
             autoFocus
@@ -85,12 +90,18 @@ export function EntityListPage({
           <View style={styles.formButtons}>
             <TouchableOpacity
               style={styles.formCancelButton}
-              onPress={() => { setShowCreate(false); setNewName(''); }}
+              onPress={() => {
+                setShowCreate(false);
+                setNewName('');
+              }}
             >
               <Text style={styles.formCancelText}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.formSubmitButton, createEntity.isPending && styles.buttonDisabled]}
+              style={[
+                styles.formSubmitButton,
+                createEntity.isPending && styles.buttonDisabled,
+              ]}
               onPress={handleCreate}
               disabled={createEntity.isPending || !newName.trim()}
             >
@@ -104,7 +115,7 @@ export function EntityListPage({
 
       <FlatList
         data={entities ?? []}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.entityItem}
@@ -129,27 +140,92 @@ export function EntityListPage({
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24 },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16, borderBottomWidth: 1, borderBottomColor: '#e5e5e5' },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e5e5e5',
+  },
   title: { fontSize: 20, fontWeight: '700', color: '#111' },
-  createButton: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 6, backgroundColor: '#2563eb' },
+  createButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
+    backgroundColor: '#2563eb',
+  },
   createButtonText: { color: '#fff', fontWeight: '600', fontSize: 14 },
-  createForm: { padding: 16, borderBottomWidth: 1, borderBottomColor: '#e5e5e5', backgroundColor: '#f9fafb' },
-  input: { borderWidth: 1, borderColor: '#d1d5db', borderRadius: 8, padding: 12, fontSize: 16, backgroundColor: '#fff' },
-  formButtons: { flexDirection: 'row', justifyContent: 'flex-end', marginTop: 12, gap: 8 },
-  formCancelButton: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 6 },
+  createForm: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e5e5e5',
+    backgroundColor: '#f9fafb',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#d1d5db',
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
+    backgroundColor: '#fff',
+  },
+  formButtons: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: 12,
+    gap: 8,
+  },
+  formCancelButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 6,
+  },
   formCancelText: { color: '#6b7280', fontWeight: '600' },
-  formSubmitButton: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 6, backgroundColor: '#2563eb' },
+  formSubmitButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 6,
+    backgroundColor: '#2563eb',
+  },
   formSubmitText: { color: '#fff', fontWeight: '600' },
   buttonDisabled: { opacity: 0.5 },
-  entityItem: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16, borderBottomWidth: 1, borderBottomColor: '#f3f4f6' },
+  entityItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
+  },
   entityInfo: { flex: 1 },
   entityName: { fontSize: 16, fontWeight: '600', color: '#111' },
   entitySlug: { fontSize: 13, color: '#6b7280', marginTop: 2 },
-  roleBadge: { fontSize: 12, fontWeight: '600', color: '#2563eb', backgroundColor: '#eff6ff', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 4, overflow: 'hidden', textTransform: 'capitalize' },
+  roleBadge: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#2563eb',
+    backgroundColor: '#eff6ff',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 4,
+    overflow: 'hidden',
+    textTransform: 'capitalize',
+  },
   empty: { padding: 40, alignItems: 'center' },
   emptyText: { fontSize: 14, color: '#9ca3af' },
   errorText: { fontSize: 14, color: '#ef4444', marginBottom: 12 },
-  retryButton: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 6, backgroundColor: '#2563eb' },
+  retryButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 6,
+    backgroundColor: '#2563eb',
+  },
   retryButtonText: { color: '#fff', fontWeight: '600' },
 });

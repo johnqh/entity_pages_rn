@@ -16,7 +16,10 @@ export interface TosScreenProps {
 export function TosScreen({ onAccept, onCancel, isLoading }: TosScreenProps) {
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent}>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollContent}
+      >
         <Text style={styles.title}>Terms of Service</Text>
         <Text style={styles.body}>
           Welcome to Tapayoka. By using this application, you agree to the
