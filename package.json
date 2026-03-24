@@ -1,6 +1,6 @@
 {
   "name": "@sudobility/entity_pages_rn",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -15,8 +15,8 @@
     "react": ">=18",
     "react-native": ">=0.74",
     "@tanstack/react-query": ">=5",
-    "@sudobility/entity_client": "^0.0.29",
-    "@sudobility/types": "^1.9.59"
+    "@sudobility/entity_client": "^0.0.30",
+    "@sudobility/types": "^1.9.60"
   },
   "devDependencies": {
     "@types/react": "^18.2.0",
@@ -34,5 +34,10 @@
     "eslint-plugin-react-refresh": "^0.4.0",
     "prettier": "^3.6.2"
   },
-  "type": "module"
+  "type": "module",
+  "license": "BUSL-1.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johnqh/entity_pages_rn.git"
+  }
 }
