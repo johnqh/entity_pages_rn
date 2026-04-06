@@ -5,7 +5,6 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
-  StyleSheet,
   Alert,
 } from 'react-native';
 import type { EntityClient } from '@sudobility/entity_client';
@@ -60,7 +59,7 @@ export function InvitationsPage({
 
   if (isLoading) {
     return (
-      <View style={styles.center}>
+      <View className='flex-1 justify-center items-center p-6'>
         <ActivityIndicator size='large' />
       </View>
     );
@@ -68,24 +67,29 @@ export function InvitationsPage({
 
   if (isError) {
     return (
-      <View style={styles.center}>
-        <Text style={styles.errorText}>
+      <View className='flex-1 justify-center items-center p-6'>
+        <Text className='text-sm text-red-500 mb-3'>
           {error?.message || 'Failed to load'}
         </Text>
-        <TouchableOpacity style={styles.retryButton} onPress={() => refetch()}>
-          <Text style={styles.retryButtonText}>Retry</Text>
+        <TouchableOpacity
+          className='px-4 py-2 rounded-md bg-blue-600'
+          onPress={() => refetch()}
+        >
+          <Text className='text-white font-semibold'>Retry</Text>
         </TouchableOpacity>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Invitations</Text>
+    <View className='flex-1 bg-white'>
+      <View className='flex-row items-center p-4 border-b border-neutral-200 gap-2'>
+        <Text className='text-xl font-bold text-gray-900'>Invitations</Text>
         {invitations && invitations.length > 0 && (
-          <View style={styles.badge}>
-            <Text style={styles.badgeText}>{invitations.length}</Text>
+          <View className='bg-blue-600 rounded-[10px] px-2 py-0.5'>
+            <Text className='text-white text-xs font-bold'>
+              {invitations.length}
+            </Text>
           </View>
         )}
       </View>
@@ -94,109 +98,50 @@ export function InvitationsPage({
         data={invitations ?? []}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <View style={styles.invitationItem}>
-            <View style={styles.invitationInfo}>
-              <Text style={styles.entityName}>
+          <View className='flex-row justify-between items-center p-4 border-b border-gray-100'>
+            <View className='flex-1'>
+              <Text className='text-base font-semibold text-gray-900'>
                 {item.entity?.displayName ?? 'Organization'}
               </Text>
-              <Text style={styles.invitationRole}>Role: {item.role}</Text>
+              <Text className='text-[13px] text-gray-500 mt-0.5 capitalize'>
+                Role: {item.role}
+              </Text>
             </View>
-            <View style={styles.invitationActions}>
+            <View className='flex-row gap-2'>
               <TouchableOpacity
-                style={styles.declineButton}
+                className='px-3 py-2 rounded-md border border-gray-300'
                 onPress={() => handleDecline(item.token)}
                 disabled={declineInvitation.isPending}
               >
-                <Text style={styles.declineText}>Decline</Text>
+                <Text className='text-[13px] font-semibold text-gray-500'>
+                  Decline
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[
-                  styles.acceptButton,
-                  acceptInvitation.isPending && styles.buttonDisabled,
-                ]}
+                className={[
+                  'px-3 py-2 rounded-md bg-blue-600',
+                  acceptInvitation.isPending ? 'opacity-50' : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
                 onPress={() => handleAccept(item.token)}
                 disabled={acceptInvitation.isPending}
               >
-                <Text style={styles.acceptText}>Accept</Text>
+                <Text className='text-[13px] font-semibold text-white'>
+                  Accept
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
         )}
         ListEmptyComponent={
-          <View style={styles.empty}>
-            <Text style={styles.emptyText}>No pending invitations</Text>
+          <View className='p-10 items-center'>
+            <Text className='text-sm text-gray-400'>
+              No pending invitations
+            </Text>
           </View>
         }
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 24,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e5e5',
-    gap: 8,
-  },
-  title: { fontSize: 20, fontWeight: '700', color: '#111' },
-  badge: {
-    backgroundColor: '#2563eb',
-    borderRadius: 10,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-  },
-  badgeText: { color: '#fff', fontSize: 12, fontWeight: '700' },
-  invitationItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f3f4f6',
-  },
-  invitationInfo: { flex: 1 },
-  entityName: { fontSize: 16, fontWeight: '600', color: '#111' },
-  invitationRole: {
-    fontSize: 13,
-    color: '#6b7280',
-    marginTop: 2,
-    textTransform: 'capitalize',
-  },
-  invitationActions: { flexDirection: 'row', gap: 8 },
-  declineButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-  },
-  declineText: { fontSize: 13, fontWeight: '600', color: '#6b7280' },
-  acceptButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 6,
-    backgroundColor: '#2563eb',
-  },
-  acceptText: { fontSize: 13, fontWeight: '600', color: '#fff' },
-  buttonDisabled: { opacity: 0.5 },
-  empty: { padding: 40, alignItems: 'center' },
-  emptyText: { fontSize: 14, color: '#9ca3af' },
-  errorText: { fontSize: 14, color: '#ef4444', marginBottom: 12 },
-  retryButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 6,
-    backgroundColor: '#2563eb',
-  },
-  retryButtonText: { color: '#fff', fontWeight: '600' },
-});

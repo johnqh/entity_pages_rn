@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   TextInput,
   ActivityIndicator,
-  StyleSheet,
   Alert,
 } from 'react-native';
 import type { EntityClient } from '@sudobility/entity_client';
@@ -47,7 +46,7 @@ export function EntityListPage({
 
   if (isLoading) {
     return (
-      <View style={styles.center}>
+      <View className='flex-1 justify-center items-center p-6'>
         <ActivityIndicator size='large' />
       </View>
     );
@@ -55,57 +54,62 @@ export function EntityListPage({
 
   if (isError) {
     return (
-      <View style={styles.center}>
-        <Text style={styles.errorText}>
+      <View className='flex-1 justify-center items-center p-6'>
+        <Text className='text-sm text-red-500 mb-3'>
           {error?.message || 'Failed to load'}
         </Text>
-        <TouchableOpacity style={styles.retryButton} onPress={() => refetch()}>
-          <Text style={styles.retryButtonText}>Retry</Text>
+        <TouchableOpacity
+          className='px-4 py-2 rounded-md bg-blue-600'
+          onPress={() => refetch()}
+        >
+          <Text className='text-white font-semibold'>Retry</Text>
         </TouchableOpacity>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Organizations</Text>
+    <View className='flex-1 bg-white'>
+      <View className='flex-row justify-between items-center p-4 border-b border-neutral-200'>
+        <Text className='text-xl font-bold text-gray-900'>Organizations</Text>
         <TouchableOpacity
-          style={styles.createButton}
+          className='px-3 py-1.5 rounded-md bg-blue-600'
           onPress={() => setShowCreate(!showCreate)}
         >
-          <Text style={styles.createButtonText}>+ New</Text>
+          <Text className='text-white font-semibold text-sm'>+ New</Text>
         </TouchableOpacity>
       </View>
 
       {showCreate && (
-        <View style={styles.createForm}>
+        <View className='p-4 border-b border-neutral-200 bg-gray-50'>
           <TextInput
-            style={styles.input}
+            className='border border-gray-300 rounded-lg p-3 text-base bg-white'
             placeholder='Organization name'
             value={newName}
             onChangeText={setNewName}
             autoFocus
           />
-          <View style={styles.formButtons}>
+          <View className='flex-row justify-end mt-3 gap-2'>
             <TouchableOpacity
-              style={styles.formCancelButton}
+              className='px-4 py-2 rounded-md'
               onPress={() => {
                 setShowCreate(false);
                 setNewName('');
               }}
             >
-              <Text style={styles.formCancelText}>Cancel</Text>
+              <Text className='text-gray-500 font-semibold'>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[
-                styles.formSubmitButton,
-                createEntity.isPending && styles.buttonDisabled,
-              ]}
+              className={[
+                'px-4 py-2 rounded-md bg-blue-600',
+                createEntity.isPending ? 'opacity-50' : '',
+              ]
+                .filter(Boolean)
+                .join(' ')}
               onPress={handleCreate}
               disabled={createEntity.isPending || !newName.trim()}
             >
-              <Text style={styles.formSubmitText}>
+              <Text className='text-white font-semibold'>
                 {createEntity.isPending ? 'Creating...' : 'Create'}
               </Text>
             </TouchableOpacity>
@@ -118,114 +122,28 @@ export function EntityListPage({
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={styles.entityItem}
+            className='flex-row justify-between items-center p-4 border-b border-gray-100'
             onPress={() => onSelectEntity?.(item)}
           >
-            <View style={styles.entityInfo}>
-              <Text style={styles.entityName}>{item.displayName}</Text>
-              <Text style={styles.entitySlug}>@{item.entitySlug}</Text>
+            <View className='flex-1'>
+              <Text className='text-base font-semibold text-gray-900'>
+                {item.displayName}
+              </Text>
+              <Text className='text-[13px] text-gray-500 mt-0.5'>
+                @{item.entitySlug}
+              </Text>
             </View>
-            <Text style={styles.roleBadge}>{item.userRole}</Text>
+            <Text className='text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded overflow-hidden capitalize'>
+              {item.userRole}
+            </Text>
           </TouchableOpacity>
         )}
         ListEmptyComponent={
-          <View style={styles.empty}>
-            <Text style={styles.emptyText}>No organizations yet</Text>
+          <View className='p-10 items-center'>
+            <Text className='text-sm text-gray-400'>No organizations yet</Text>
           </View>
         }
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 24,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e5e5',
-  },
-  title: { fontSize: 20, fontWeight: '700', color: '#111' },
-  createButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 6,
-    backgroundColor: '#2563eb',
-  },
-  createButtonText: { color: '#fff', fontWeight: '600', fontSize: 14 },
-  createForm: {
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e5e5',
-    backgroundColor: '#f9fafb',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    backgroundColor: '#fff',
-  },
-  formButtons: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginTop: 12,
-    gap: 8,
-  },
-  formCancelButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 6,
-  },
-  formCancelText: { color: '#6b7280', fontWeight: '600' },
-  formSubmitButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 6,
-    backgroundColor: '#2563eb',
-  },
-  formSubmitText: { color: '#fff', fontWeight: '600' },
-  buttonDisabled: { opacity: 0.5 },
-  entityItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f3f4f6',
-  },
-  entityInfo: { flex: 1 },
-  entityName: { fontSize: 16, fontWeight: '600', color: '#111' },
-  entitySlug: { fontSize: 13, color: '#6b7280', marginTop: 2 },
-  roleBadge: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#2563eb',
-    backgroundColor: '#eff6ff',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 4,
-    overflow: 'hidden',
-    textTransform: 'capitalize',
-  },
-  empty: { padding: 40, alignItems: 'center' },
-  emptyText: { fontSize: 14, color: '#9ca3af' },
-  errorText: { fontSize: 14, color: '#ef4444', marginBottom: 12 },
-  retryButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 6,
-    backgroundColor: '#2563eb',
-  },
-  retryButtonText: { color: '#fff', fontWeight: '600' },
-});

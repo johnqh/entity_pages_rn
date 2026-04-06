@@ -19,6 +19,7 @@ entity_pages_rn/
 ├── package.json
 ├── tsconfig.json              # Base TS config (strict, declarations, outDir: dist/)
 ├── tsconfig.build.json        # Build config (extends base, excludes tests)
+├── nativewind-env.d.ts        # NativeWind type declarations for className props
 └── src/
     ├── index.ts               # Barrel exports (all pages + prop types)
     └── pages/
@@ -55,15 +56,16 @@ bun run typecheck    # TypeScript check (no emit)
 |---------|---------|---------|
 | `react` | >=18 | React core |
 | `react-native` | >=0.74 | React Native framework |
+| `nativewind` | >=4 | NativeWind (Tailwind CSS for React Native) |
 | `@tanstack/react-query` | >=5 | Data fetching and caching |
-| `@sudobility/entity_client` | ^0.0.25 | Entity API client and hooks |
-| `@sudobility/types` | ^1.9.55 | Shared type definitions |
+| `@sudobility/entity_client` | ^0.0.33 | Entity API client and hooks |
+| `@sudobility/types` | ^1.9.61 | Shared type definitions |
 
 ## Coding Patterns
 
 - **All pages accept an `EntityClient` instance** -- dependency injection, not context-based.
 - **Uses `@sudobility/entity_client` hooks directly** -- pages call `useEntities`, `useEntityMembers`, `useCreateEntity`, etc.
-- **RN StyleSheet.create for styling** -- no external styling libraries, plain React Native components.
+- **NativeWind (Tailwind CSS) for styling** -- uses `className` props with Tailwind utility classes. Consuming apps must include this package's source in their `tailwind.config.js` content paths.
 - **Alert.alert for confirmations** -- destructive actions (remove member, decline invitation) use native alerts.
 - **Loading/error/empty states** -- each page handles ActivityIndicator loading, error with retry, and empty list states.
 

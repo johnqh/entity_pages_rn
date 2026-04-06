@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   TextInput,
   ActivityIndicator,
-  StyleSheet,
   Alert,
 } from 'react-native';
 import type { EntityClient } from '@sudobility/entity_client';
@@ -106,31 +105,31 @@ export function MembersManagementPage({
 
   if (isLoading) {
     return (
-      <View style={styles.center}>
+      <View className='flex-1 justify-center items-center'>
         <ActivityIndicator size='large' />
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <View className='flex-1 bg-white'>
       {/* Members Section */}
-      <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>Members</Text>
+      <View className='flex-row justify-between items-center p-4 border-b border-neutral-200'>
+        <Text className='text-lg font-bold text-gray-900'>Members</Text>
         {canManage && (
           <TouchableOpacity
-            style={styles.inviteButton}
+            className='px-3 py-1.5 rounded-md bg-blue-600'
             onPress={() => setShowInvite(!showInvite)}
           >
-            <Text style={styles.inviteButtonText}>Invite</Text>
+            <Text className='text-white font-semibold text-sm'>Invite</Text>
           </TouchableOpacity>
         )}
       </View>
 
       {showInvite && (
-        <View style={styles.inviteForm}>
+        <View className='p-4 border-b border-neutral-200 bg-gray-50'>
           <TextInput
-            style={styles.input}
+            className='border border-gray-300 rounded-lg p-3 text-base bg-white'
             placeholder='Email address'
             value={inviteEmail}
             onChangeText={setInviteEmail}
@@ -138,61 +137,70 @@ export function MembersManagementPage({
             autoCapitalize='none'
             autoFocus
           />
-          <View style={styles.roleSelector}>
+          <View className='flex-row mt-3 gap-2'>
             <TouchableOpacity
-              style={[
-                styles.roleOption,
-                inviteRole === EntityRole.MEMBER && styles.roleOptionActive,
-              ]}
+              className={[
+                'px-4 py-2 rounded-md border',
+                inviteRole === EntityRole.MEMBER
+                  ? 'border-blue-600 bg-blue-50'
+                  : 'border-gray-300',
+              ].join(' ')}
               onPress={() => setInviteRole(EntityRole.MEMBER)}
             >
               <Text
-                style={[
-                  styles.roleOptionText,
-                  inviteRole === EntityRole.MEMBER &&
-                    styles.roleOptionTextActive,
-                ]}
+                className={[
+                  'font-semibold',
+                  inviteRole === EntityRole.MEMBER
+                    ? 'text-blue-600'
+                    : 'text-gray-500',
+                ].join(' ')}
               >
                 Member
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[
-                styles.roleOption,
-                inviteRole === EntityRole.MANAGER && styles.roleOptionActive,
-              ]}
+              className={[
+                'px-4 py-2 rounded-md border',
+                inviteRole === EntityRole.MANAGER
+                  ? 'border-blue-600 bg-blue-50'
+                  : 'border-gray-300',
+              ].join(' ')}
               onPress={() => setInviteRole(EntityRole.MANAGER)}
             >
               <Text
-                style={[
-                  styles.roleOptionText,
-                  inviteRole === EntityRole.MANAGER &&
-                    styles.roleOptionTextActive,
-                ]}
+                className={[
+                  'font-semibold',
+                  inviteRole === EntityRole.MANAGER
+                    ? 'text-blue-600'
+                    : 'text-gray-500',
+                ].join(' ')}
               >
                 Manager
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.formButtons}>
+          <View className='flex-row justify-end mt-3 gap-3 items-center'>
             <TouchableOpacity
               onPress={() => {
                 setShowInvite(false);
                 setInviteEmail('');
               }}
             >
-              <Text style={styles.formCancelText}>Cancel</Text>
+              <Text className='text-gray-500 font-semibold'>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[
-                styles.formSubmitButton,
-                (!inviteEmail.trim() || createInvitation.isPending) &&
-                  styles.buttonDisabled,
-              ]}
+              className={[
+                'px-4 py-2 rounded-md bg-blue-600',
+                !inviteEmail.trim() || createInvitation.isPending
+                  ? 'opacity-50'
+                  : '',
+              ]
+                .filter(Boolean)
+                .join(' ')}
               onPress={handleInvite}
               disabled={!inviteEmail.trim() || createInvitation.isPending}
             >
-              <Text style={styles.formSubmitText}>
+              <Text className='text-white font-semibold'>
                 {createInvitation.isPending ? 'Sending...' : 'Send Invite'}
               </Text>
             </TouchableOpacity>
@@ -204,15 +212,19 @@ export function MembersManagementPage({
         data={members ?? []}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <View style={styles.memberItem}>
-            <View style={styles.memberInfo}>
-              <Text style={styles.memberName}>{item.userId}</Text>
-              <Text style={styles.memberRole}>{item.role}</Text>
+          <View className='flex-row justify-between items-center p-4 border-b border-gray-100'>
+            <View className='flex-1'>
+              <Text className='text-[15px] font-semibold text-gray-900'>
+                {item.userId}
+              </Text>
+              <Text className='text-[13px] text-gray-500 mt-0.5 capitalize'>
+                {item.role}
+              </Text>
             </View>
             {canManage && item.role !== EntityRole.OWNER && (
-              <View style={styles.memberActions}>
+              <View className='flex-row gap-2'>
                 <TouchableOpacity
-                  style={styles.actionButton}
+                  className='px-2.5 py-1.5 rounded border border-gray-300'
                   onPress={() =>
                     handleRoleChange(
                       item.id,
@@ -222,45 +234,56 @@ export function MembersManagementPage({
                     )
                   }
                 >
-                  <Text style={styles.actionText}>
+                  <Text className='text-xs font-semibold text-gray-700'>
                     {item.role === EntityRole.MANAGER ? 'Demote' : 'Promote'}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={styles.removeButton}
+                  className='px-2.5 py-1.5 rounded border border-red-200'
                   onPress={() => handleRemoveMember(item.id, item.userId)}
                 >
-                  <Text style={styles.removeText}>Remove</Text>
+                  <Text className='text-xs font-semibold text-red-500'>
+                    Remove
+                  </Text>
                 </TouchableOpacity>
               </View>
             )}
           </View>
         )}
         ListEmptyComponent={
-          <View style={styles.empty}>
-            <Text style={styles.emptyText}>No members</Text>
+          <View className='p-10 items-center'>
+            <Text className='text-sm text-gray-400'>No members</Text>
           </View>
         }
         ListFooterComponent={
           invitations && invitations.length > 0 ? (
             <View>
-              <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>Pending Invitations</Text>
+              <View className='flex-row justify-between items-center p-4 border-b border-neutral-200'>
+                <Text className='text-lg font-bold text-gray-900'>
+                  Pending Invitations
+                </Text>
               </View>
               {invitations.map((inv: any) => (
-                <View key={inv.id} style={styles.memberItem}>
-                  <View style={styles.memberInfo}>
-                    <Text style={styles.memberName}>{inv.email}</Text>
-                    <Text style={styles.invitationStatus}>
+                <View
+                  key={inv.id}
+                  className='flex-row justify-between items-center p-4 border-b border-gray-100'
+                >
+                  <View className='flex-1'>
+                    <Text className='text-[15px] font-semibold text-gray-900'>
+                      {inv.email}
+                    </Text>
+                    <Text className='text-[13px] text-amber-500 mt-0.5'>
                       Pending - {inv.role}
                     </Text>
                   </View>
                   {canManage && (
                     <TouchableOpacity
-                      style={styles.removeButton}
+                      className='px-2.5 py-1.5 rounded border border-red-200'
                       onPress={() => handleCancelInvitation(inv.id)}
                     >
-                      <Text style={styles.removeText}>Cancel</Text>
+                      <Text className='text-xs font-semibold text-red-500'>
+                        Cancel
+                      </Text>
                     </TouchableOpacity>
                   )}
                 </View>
@@ -272,101 +295,3 @@ export function MembersManagementPage({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e5e5',
-  },
-  sectionTitle: { fontSize: 18, fontWeight: '700', color: '#111' },
-  inviteButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 6,
-    backgroundColor: '#2563eb',
-  },
-  inviteButtonText: { color: '#fff', fontWeight: '600', fontSize: 14 },
-  inviteForm: {
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e5e5',
-    backgroundColor: '#f9fafb',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    backgroundColor: '#fff',
-  },
-  roleSelector: { flexDirection: 'row', marginTop: 12, gap: 8 },
-  roleOption: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-  },
-  roleOptionActive: { borderColor: '#2563eb', backgroundColor: '#eff6ff' },
-  roleOptionText: { color: '#6b7280', fontWeight: '600' },
-  roleOptionTextActive: { color: '#2563eb' },
-  formButtons: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginTop: 12,
-    gap: 12,
-    alignItems: 'center',
-  },
-  formCancelText: { color: '#6b7280', fontWeight: '600' },
-  formSubmitButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 6,
-    backgroundColor: '#2563eb',
-  },
-  formSubmitText: { color: '#fff', fontWeight: '600' },
-  buttonDisabled: { opacity: 0.5 },
-  memberItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f3f4f6',
-  },
-  memberInfo: { flex: 1 },
-  memberName: { fontSize: 15, fontWeight: '600', color: '#111' },
-  memberRole: {
-    fontSize: 13,
-    color: '#6b7280',
-    marginTop: 2,
-    textTransform: 'capitalize',
-  },
-  invitationStatus: { fontSize: 13, color: '#f59e0b', marginTop: 2 },
-  memberActions: { flexDirection: 'row', gap: 8 },
-  actionButton: {
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-  },
-  actionText: { fontSize: 12, fontWeight: '600', color: '#374151' },
-  removeButton: {
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#fecaca',
-  },
-  removeText: { fontSize: 12, fontWeight: '600', color: '#ef4444' },
-  empty: { padding: 40, alignItems: 'center' },
-  emptyText: { fontSize: 14, color: '#9ca3af' },
-});

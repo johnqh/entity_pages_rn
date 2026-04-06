@@ -1,6 +1,6 @@
 {
   "name": "@sudobility/entity_pages_rn",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -14,12 +14,15 @@
   "peerDependencies": {
     "react": ">=18",
     "react-native": ">=0.74",
+    "nativewind": ">=4",
     "@tanstack/react-query": ">=5",
     "@sudobility/entity_client": "^0.0.33",
     "@sudobility/types": "^1.9.61"
   },
   "devDependencies": {
     "@types/react": "^18.2.0",
+    "nativewind": "^4.2.2",
+    "tailwindcss": "^3.4.0",
     "typescript": "^5.5.0",
     "react": "^18.2.0",
     "react-native": "^0.81.0",
