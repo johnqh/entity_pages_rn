@@ -1,6 +1,6 @@
 {
   "name": "@sudobility/entity_pages_rn",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -9,7 +9,8 @@
     "lint": "eslint . --ext ts,tsx --ignore-pattern dist --ignore-pattern node_modules --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext ts,tsx --ignore-pattern dist --ignore-pattern node_modules --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json}\""
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json}\"",
+    "test": "vitest run"
   },
   "peerDependencies": {
     "react": ">=18",
@@ -21,6 +22,9 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.0",
+    "jsdom": "^28.1.0",
+    "react-dom": "^18.2.0",
+    "vitest": "^4.0.0",
     "nativewind": "^4.2.2",
     "tailwindcss": "^3.4.0",
     "typescript": "^5.5.0",
