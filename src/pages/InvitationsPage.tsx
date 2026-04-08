@@ -13,6 +13,9 @@ import {
   useAcceptInvitation,
   useDeclineInvitation,
 } from '@sudobility/entity_client';
+import { designTokens } from '@sudobility/design';
+
+const { size, weight } = designTokens.typography;
 
 export interface InvitationsPageProps {
   client: EntityClient;
@@ -68,14 +71,16 @@ export function InvitationsPage({
   if (isError) {
     return (
       <View className='flex-1 justify-center items-center p-6'>
-        <Text className='text-sm text-red-500 mb-3'>
+        <Text className={[size.sm, 'text-red-500 mb-3'].join(' ')}>
           {error?.message || 'Failed to load'}
         </Text>
         <TouchableOpacity
           className='px-4 py-2 rounded-md bg-blue-600'
           onPress={() => refetch()}
         >
-          <Text className='text-white font-semibold'>Retry</Text>
+          <Text className={['text-white', weight.semibold].join(' ')}>
+            Retry
+          </Text>
         </TouchableOpacity>
       </View>
     );
@@ -84,10 +89,12 @@ export function InvitationsPage({
   return (
     <View className='flex-1 bg-white'>
       <View className='flex-row items-center p-4 border-b border-neutral-200 gap-2'>
-        <Text className='text-xl font-bold text-gray-900'>Invitations</Text>
+        <Text className={[size.xl, weight.bold, 'text-gray-900'].join(' ')}>
+          Invitations
+        </Text>
         {invitations && invitations.length > 0 && (
           <View className='bg-blue-600 rounded-[10px] px-2 py-0.5'>
-            <Text className='text-white text-xs font-bold'>
+            <Text className={['text-white', size.xs, weight.bold].join(' ')}>
               {invitations.length}
             </Text>
           </View>
@@ -100,7 +107,11 @@ export function InvitationsPage({
         renderItem={({ item }) => (
           <View className='flex-row justify-between items-center p-4 border-b border-gray-100'>
             <View className='flex-1'>
-              <Text className='text-base font-semibold text-gray-900'>
+              <Text
+                className={[size.base, weight.semibold, 'text-gray-900'].join(
+                  ' '
+                )}
+              >
                 {item.entity?.displayName ?? 'Organization'}
               </Text>
               <Text className='text-[13px] text-gray-500 mt-0.5 capitalize'>
@@ -113,7 +124,13 @@ export function InvitationsPage({
                 onPress={() => handleDecline(item.token)}
                 disabled={declineInvitation.isPending}
               >
-                <Text className='text-[13px] font-semibold text-gray-500'>
+                <Text
+                  className={[
+                    'text-[13px]',
+                    weight.semibold,
+                    'text-gray-500',
+                  ].join(' ')}
+                >
                   Decline
                 </Text>
               </TouchableOpacity>
@@ -127,7 +144,13 @@ export function InvitationsPage({
                 onPress={() => handleAccept(item.token)}
                 disabled={acceptInvitation.isPending}
               >
-                <Text className='text-[13px] font-semibold text-white'>
+                <Text
+                  className={[
+                    'text-[13px]',
+                    weight.semibold,
+                    'text-white',
+                  ].join(' ')}
+                >
                   Accept
                 </Text>
               </TouchableOpacity>
@@ -136,7 +159,7 @@ export function InvitationsPage({
         )}
         ListEmptyComponent={
           <View className='p-10 items-center'>
-            <Text className='text-sm text-gray-400'>
+            <Text className={[size.sm, 'text-gray-400'].join(' ')}>
               No pending invitations
             </Text>
           </View>

@@ -10,6 +10,9 @@ import {
 } from 'react-native';
 import type { EntityClient } from '@sudobility/entity_client';
 import { useEntities, useCreateEntity } from '@sudobility/entity_client';
+import { designTokens } from '@sudobility/design';
+
+const { size, weight } = designTokens.typography;
 
 export interface EntityListPageProps {
   client: EntityClient;
@@ -55,14 +58,16 @@ export function EntityListPage({
   if (isError) {
     return (
       <View className='flex-1 justify-center items-center p-6'>
-        <Text className='text-sm text-red-500 mb-3'>
+        <Text className={[size.sm, 'text-red-500 mb-3'].join(' ')}>
           {error?.message || 'Failed to load'}
         </Text>
         <TouchableOpacity
           className='px-4 py-2 rounded-md bg-blue-600'
           onPress={() => refetch()}
         >
-          <Text className='text-white font-semibold'>Retry</Text>
+          <Text className={['text-white', weight.semibold].join(' ')}>
+            Retry
+          </Text>
         </TouchableOpacity>
       </View>
     );
@@ -71,19 +76,26 @@ export function EntityListPage({
   return (
     <View className='flex-1 bg-white'>
       <View className='flex-row justify-between items-center p-4 border-b border-neutral-200'>
-        <Text className='text-xl font-bold text-gray-900'>Organizations</Text>
+        <Text className={[size.xl, weight.bold, 'text-gray-900'].join(' ')}>
+          Organizations
+        </Text>
         <TouchableOpacity
           className='px-3 py-1.5 rounded-md bg-blue-600'
           onPress={() => setShowCreate(!showCreate)}
         >
-          <Text className='text-white font-semibold text-sm'>+ New</Text>
+          <Text className={['text-white', weight.semibold, size.sm].join(' ')}>
+            + New
+          </Text>
         </TouchableOpacity>
       </View>
 
       {showCreate && (
         <View className='p-4 border-b border-neutral-200 bg-gray-50'>
           <TextInput
-            className='border border-gray-300 rounded-lg p-3 text-base bg-white'
+            className={[
+              'border border-gray-300 rounded-lg p-3 bg-white',
+              size.base,
+            ].join(' ')}
             placeholder='Organization name'
             value={newName}
             onChangeText={setNewName}
@@ -97,7 +109,9 @@ export function EntityListPage({
                 setNewName('');
               }}
             >
-              <Text className='text-gray-500 font-semibold'>Cancel</Text>
+              <Text className={['text-gray-500', weight.semibold].join(' ')}>
+                Cancel
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               className={[
@@ -109,7 +123,7 @@ export function EntityListPage({
               onPress={handleCreate}
               disabled={createEntity.isPending || !newName.trim()}
             >
-              <Text className='text-white font-semibold'>
+              <Text className={['text-white', weight.semibold].join(' ')}>
                 {createEntity.isPending ? 'Creating...' : 'Create'}
               </Text>
             </TouchableOpacity>
@@ -126,21 +140,33 @@ export function EntityListPage({
             onPress={() => onSelectEntity?.(item)}
           >
             <View className='flex-1'>
-              <Text className='text-base font-semibold text-gray-900'>
+              <Text
+                className={[size.base, weight.semibold, 'text-gray-900'].join(
+                  ' '
+                )}
+              >
                 {item.displayName}
               </Text>
               <Text className='text-[13px] text-gray-500 mt-0.5'>
                 @{item.entitySlug}
               </Text>
             </View>
-            <Text className='text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded overflow-hidden capitalize'>
+            <Text
+              className={[
+                size.xs,
+                weight.semibold,
+                'text-blue-600 bg-blue-50 px-2 py-1 rounded overflow-hidden capitalize',
+              ].join(' ')}
+            >
               {item.userRole}
             </Text>
           </TouchableOpacity>
         )}
         ListEmptyComponent={
           <View className='p-10 items-center'>
-            <Text className='text-sm text-gray-400'>No organizations yet</Text>
+            <Text className={[size.sm, 'text-gray-400'].join(' ')}>
+              No organizations yet
+            </Text>
           </View>
         }
       />
