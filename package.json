@@ -1,6 +1,6 @@
 {
   "name": "@sudobility/entity_pages_rn",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -17,8 +17,8 @@
     "react-native": ">=0.74",
     "nativewind": ">=4",
     "@tanstack/react-query": ">=5",
-    "@sudobility/design": "^1.1.29",
-    "@sudobility/entity_client": "^0.0.34",
+    "@sudobility/design": "^1.1.30",
+    "@sudobility/entity_client": "^0.0.35",
     "@sudobility/types": "^1.9.61"
   },
   "devDependencies": {
