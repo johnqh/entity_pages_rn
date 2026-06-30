@@ -58,14 +58,16 @@ export function EntityListPage({
   if (isError) {
     return (
       <View className='flex-1 justify-center items-center p-6'>
-        <Text className={[size.sm, 'text-red-500 mb-3'].join(' ')}>
+        <Text className={[size.sm, 'text-destructive mb-3'].join(' ')}>
           {error?.message || 'Failed to load'}
         </Text>
         <TouchableOpacity
-          className='px-4 py-2 rounded-md bg-blue-600'
+          className='px-4 py-2 rounded-md bg-primary'
           onPress={() => refetch()}
         >
-          <Text className={['text-white', weight.semibold].join(' ')}>
+          <Text
+            className={['text-primary-foreground', weight.semibold].join(' ')}
+          >
             Retry
           </Text>
         </TouchableOpacity>
@@ -74,26 +76,32 @@ export function EntityListPage({
   }
 
   return (
-    <View className='flex-1 bg-white'>
-      <View className='flex-row justify-between items-center p-4 border-b border-neutral-200'>
-        <Text className={[size.xl, weight.bold, 'text-gray-900'].join(' ')}>
+    <View className='flex-1 bg-background'>
+      <View className='flex-row justify-between items-center p-4 border-b border-border'>
+        <Text className={[size.xl, weight.bold, 'text-foreground'].join(' ')}>
           Organizations
         </Text>
         <TouchableOpacity
-          className='px-3 py-1.5 rounded-md bg-blue-600'
+          className='px-3 py-1.5 rounded-md bg-primary'
           onPress={() => setShowCreate(!showCreate)}
         >
-          <Text className={['text-white', weight.semibold, size.sm].join(' ')}>
+          <Text
+            className={[
+              'text-primary-foreground',
+              weight.semibold,
+              size.sm,
+            ].join(' ')}
+          >
             + New
           </Text>
         </TouchableOpacity>
       </View>
 
       {showCreate && (
-        <View className='p-4 border-b border-neutral-200 bg-gray-50'>
+        <View className='p-4 border-b border-border bg-muted'>
           <TextInput
             className={[
-              'border border-gray-300 rounded-lg p-3 bg-white',
+              'border border-input rounded-lg p-3 bg-background',
               size.base,
             ].join(' ')}
             placeholder='Organization name'
@@ -109,13 +117,15 @@ export function EntityListPage({
                 setNewName('');
               }}
             >
-              <Text className={['text-gray-500', weight.semibold].join(' ')}>
+              <Text
+                className={['text-muted-foreground', weight.semibold].join(' ')}
+              >
                 Cancel
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               className={[
-                'px-4 py-2 rounded-md bg-blue-600',
+                'px-4 py-2 rounded-md bg-primary',
                 createEntity.isPending ? 'opacity-50' : '',
               ]
                 .filter(Boolean)
@@ -123,7 +133,11 @@ export function EntityListPage({
               onPress={handleCreate}
               disabled={createEntity.isPending || !newName.trim()}
             >
-              <Text className={['text-white', weight.semibold].join(' ')}>
+              <Text
+                className={['text-primary-foreground', weight.semibold].join(
+                  ' '
+                )}
+              >
                 {createEntity.isPending ? 'Creating...' : 'Create'}
               </Text>
             </TouchableOpacity>
@@ -136,18 +150,18 @@ export function EntityListPage({
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
-            className='flex-row justify-between items-center p-4 border-b border-gray-100'
+            className='flex-row justify-between items-center p-4 border-b border-border'
             onPress={() => onSelectEntity?.(item)}
           >
             <View className='flex-1'>
               <Text
-                className={[size.base, weight.semibold, 'text-gray-900'].join(
+                className={[size.base, weight.semibold, 'text-foreground'].join(
                   ' '
                 )}
               >
                 {item.displayName}
               </Text>
-              <Text className='text-[13px] text-gray-500 mt-0.5'>
+              <Text className='text-[13px] text-muted-foreground mt-0.5'>
                 @{item.entitySlug}
               </Text>
             </View>
@@ -155,7 +169,7 @@ export function EntityListPage({
               className={[
                 size.xs,
                 weight.semibold,
-                'text-blue-600 bg-blue-50 px-2 py-1 rounded overflow-hidden capitalize',
+                'text-primary bg-primary/10 px-2 py-1 rounded overflow-hidden capitalize',
               ].join(' ')}
             >
               {item.userRole}
@@ -164,7 +178,7 @@ export function EntityListPage({
         )}
         ListEmptyComponent={
           <View className='p-10 items-center'>
-            <Text className={[size.sm, 'text-gray-400'].join(' ')}>
+            <Text className={[size.sm, 'text-muted-foreground'].join(' ')}>
               No organizations yet
             </Text>
           </View>

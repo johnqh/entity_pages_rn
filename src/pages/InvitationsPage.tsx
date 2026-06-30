@@ -71,14 +71,16 @@ export function InvitationsPage({
   if (isError) {
     return (
       <View className='flex-1 justify-center items-center p-6'>
-        <Text className={[size.sm, 'text-red-500 mb-3'].join(' ')}>
+        <Text className={[size.sm, 'text-destructive mb-3'].join(' ')}>
           {error?.message || 'Failed to load'}
         </Text>
         <TouchableOpacity
-          className='px-4 py-2 rounded-md bg-blue-600'
+          className='px-4 py-2 rounded-md bg-primary'
           onPress={() => refetch()}
         >
-          <Text className={['text-white', weight.semibold].join(' ')}>
+          <Text
+            className={['text-primary-foreground', weight.semibold].join(' ')}
+          >
             Retry
           </Text>
         </TouchableOpacity>
@@ -87,14 +89,18 @@ export function InvitationsPage({
   }
 
   return (
-    <View className='flex-1 bg-white'>
-      <View className='flex-row items-center p-4 border-b border-neutral-200 gap-2'>
-        <Text className={[size.xl, weight.bold, 'text-gray-900'].join(' ')}>
+    <View className='flex-1 bg-background'>
+      <View className='flex-row items-center p-4 border-b border-border gap-2'>
+        <Text className={[size.xl, weight.bold, 'text-foreground'].join(' ')}>
           Invitations
         </Text>
         {invitations && invitations.length > 0 && (
-          <View className='bg-blue-600 rounded-[10px] px-2 py-0.5'>
-            <Text className={['text-white', size.xs, weight.bold].join(' ')}>
+          <View className='bg-primary rounded-[10px] px-2 py-0.5'>
+            <Text
+              className={['text-primary-foreground', size.xs, weight.bold].join(
+                ' '
+              )}
+            >
               {invitations.length}
             </Text>
           </View>
@@ -105,22 +111,22 @@ export function InvitationsPage({
         data={invitations ?? []}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <View className='flex-row justify-between items-center p-4 border-b border-gray-100'>
+          <View className='flex-row justify-between items-center p-4 border-b border-border'>
             <View className='flex-1'>
               <Text
-                className={[size.base, weight.semibold, 'text-gray-900'].join(
+                className={[size.base, weight.semibold, 'text-foreground'].join(
                   ' '
                 )}
               >
                 {item.entity?.displayName ?? 'Organization'}
               </Text>
-              <Text className='text-[13px] text-gray-500 mt-0.5 capitalize'>
+              <Text className='text-[13px] text-muted-foreground mt-0.5 capitalize'>
                 Role: {item.role}
               </Text>
             </View>
             <View className='flex-row gap-2'>
               <TouchableOpacity
-                className='px-3 py-2 rounded-md border border-gray-300'
+                className='px-3 py-2 rounded-md border border-border'
                 onPress={() => handleDecline(item.token)}
                 disabled={declineInvitation.isPending}
               >
@@ -128,7 +134,7 @@ export function InvitationsPage({
                   className={[
                     'text-[13px]',
                     weight.semibold,
-                    'text-gray-500',
+                    'text-muted-foreground',
                   ].join(' ')}
                 >
                   Decline
@@ -136,7 +142,7 @@ export function InvitationsPage({
               </TouchableOpacity>
               <TouchableOpacity
                 className={[
-                  'px-3 py-2 rounded-md bg-blue-600',
+                  'px-3 py-2 rounded-md bg-primary',
                   acceptInvitation.isPending ? 'opacity-50' : '',
                 ]
                   .filter(Boolean)
@@ -148,7 +154,7 @@ export function InvitationsPage({
                   className={[
                     'text-[13px]',
                     weight.semibold,
-                    'text-white',
+                    'text-primary-foreground',
                   ].join(' ')}
                 >
                   Accept
@@ -159,7 +165,7 @@ export function InvitationsPage({
         )}
         ListEmptyComponent={
           <View className='p-10 items-center'>
-            <Text className={[size.sm, 'text-gray-400'].join(' ')}>
+            <Text className={[size.sm, 'text-muted-foreground'].join(' ')}>
               No pending invitations
             </Text>
           </View>

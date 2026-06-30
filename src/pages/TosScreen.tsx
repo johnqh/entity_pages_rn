@@ -12,14 +12,16 @@ export interface TosScreenProps {
 
 export function TosScreen({ onAccept, onCancel, isLoading }: TosScreenProps) {
   return (
-    <View className='flex-1 bg-white'>
+    <View className='flex-1 bg-background'>
       <ScrollView className='flex-1' contentContainerClassName='p-6 pb-10'>
         <Text
-          className={[size['2xl'], weight.bold, 'mb-5 text-gray-900'].join(' ')}
+          className={[size['2xl'], weight.bold, 'mb-5 text-foreground'].join(
+            ' '
+          )}
         >
           Terms of Service
         </Text>
-        <Text className={[size.sm, 'leading-[22px] text-gray-700'].join(' ')}>
+        <Text className={[size.sm, 'leading-[22px] text-foreground'].join(' ')}>
           Welcome to Tapayoka. By using this application, you agree to the
           following terms and conditions.
         </Text>
@@ -27,12 +29,12 @@ export function TosScreen({ onAccept, onCancel, isLoading }: TosScreenProps) {
           className={[
             size.base,
             weight.semibold,
-            'mt-5 mb-2 text-gray-900',
+            'mt-5 mb-2 text-foreground',
           ].join(' ')}
         >
           1. Acceptance of Terms
         </Text>
-        <Text className={[size.sm, 'leading-[22px] text-gray-700'].join(' ')}>
+        <Text className={[size.sm, 'leading-[22px] text-foreground'].join(' ')}>
           By accessing or using the Tapayoka vendor platform, you agree to be
           bound by these Terms of Service and all applicable laws and
           regulations.
@@ -41,12 +43,12 @@ export function TosScreen({ onAccept, onCancel, isLoading }: TosScreenProps) {
           className={[
             size.base,
             weight.semibold,
-            'mt-5 mb-2 text-gray-900',
+            'mt-5 mb-2 text-foreground',
           ].join(' ')}
         >
           2. Use of Service
         </Text>
-        <Text className={[size.sm, 'leading-[22px] text-gray-700'].join(' ')}>
+        <Text className={[size.sm, 'leading-[22px] text-foreground'].join(' ')}>
           You agree to use the service only for lawful purposes and in
           accordance with these terms. You are responsible for maintaining the
           security of your account credentials.
@@ -55,12 +57,12 @@ export function TosScreen({ onAccept, onCancel, isLoading }: TosScreenProps) {
           className={[
             size.base,
             weight.semibold,
-            'mt-5 mb-2 text-gray-900',
+            'mt-5 mb-2 text-foreground',
           ].join(' ')}
         >
           3. Vendor Responsibilities
         </Text>
-        <Text className={[size.sm, 'leading-[22px] text-gray-700'].join(' ')}>
+        <Text className={[size.sm, 'leading-[22px] text-foreground'].join(' ')}>
           As a vendor, you are responsible for the accuracy of your service
           listings, pricing, and device configurations. You agree to provide
           services as described and maintain your equipment in working order.
@@ -69,12 +71,12 @@ export function TosScreen({ onAccept, onCancel, isLoading }: TosScreenProps) {
           className={[
             size.base,
             weight.semibold,
-            'mt-5 mb-2 text-gray-900',
+            'mt-5 mb-2 text-foreground',
           ].join(' ')}
         >
           4. Privacy
         </Text>
-        <Text className={[size.sm, 'leading-[22px] text-gray-700'].join(' ')}>
+        <Text className={[size.sm, 'leading-[22px] text-foreground'].join(' ')}>
           Your privacy is important to us. We collect and process data as
           described in our Privacy Policy, which is incorporated into these
           terms by reference.
@@ -83,32 +85,36 @@ export function TosScreen({ onAccept, onCancel, isLoading }: TosScreenProps) {
           className={[
             size.base,
             weight.semibold,
-            'mt-5 mb-2 text-gray-900',
+            'mt-5 mb-2 text-foreground',
           ].join(' ')}
         >
           5. Limitation of Liability
         </Text>
-        <Text className={[size.sm, 'leading-[22px] text-gray-700'].join(' ')}>
+        <Text className={[size.sm, 'leading-[22px] text-foreground'].join(' ')}>
           Tapayoka shall not be liable for any indirect, incidental, special,
           consequential, or punitive damages resulting from your use of the
           service.
         </Text>
       </ScrollView>
-      <View className='flex-row p-4 border-t border-neutral-200 gap-3'>
+      <View className='flex-row p-4 border-t border-border gap-3'>
         <TouchableOpacity
-          className='flex-1 py-3.5 rounded-lg border border-gray-300 items-center'
+          className='flex-1 py-3.5 rounded-lg border border-border items-center'
           onPress={onCancel}
           disabled={isLoading}
         >
           <Text
-            className={[size.base, weight.semibold, 'text-gray-500'].join(' ')}
+            className={[
+              size.base,
+              weight.semibold,
+              'text-muted-foreground',
+            ].join(' ')}
           >
             Cancel
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           className={[
-            'flex-1 py-3.5 rounded-lg bg-blue-600 items-center',
+            'flex-1 py-3.5 rounded-lg bg-primary items-center',
             isLoading ? 'opacity-50' : '',
           ]
             .filter(Boolean)
@@ -117,7 +123,11 @@ export function TosScreen({ onAccept, onCancel, isLoading }: TosScreenProps) {
           disabled={isLoading}
         >
           <Text
-            className={[size.base, weight.semibold, 'text-white'].join(' ')}
+            className={[
+              size.base,
+              weight.semibold,
+              'text-primary-foreground',
+            ].join(' ')}
           >
             {isLoading ? 'Please wait...' : 'Accept & Continue'}
           </Text>

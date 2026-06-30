@@ -115,19 +115,23 @@ export function MembersManagementPage({
   }
 
   return (
-    <View className='flex-1 bg-white'>
+    <View className='flex-1 bg-background'>
       {/* Members Section */}
-      <View className='flex-row justify-between items-center p-4 border-b border-neutral-200'>
-        <Text className={[size.lg, weight.bold, 'text-gray-900'].join(' ')}>
+      <View className='flex-row justify-between items-center p-4 border-b border-border'>
+        <Text className={[size.lg, weight.bold, 'text-foreground'].join(' ')}>
           Members
         </Text>
         {canManage && (
           <TouchableOpacity
-            className='px-3 py-1.5 rounded-md bg-blue-600'
+            className='px-3 py-1.5 rounded-md bg-primary'
             onPress={() => setShowInvite(!showInvite)}
           >
             <Text
-              className={['text-white', weight.semibold, size.sm].join(' ')}
+              className={[
+                'text-primary-foreground',
+                weight.semibold,
+                size.sm,
+              ].join(' ')}
             >
               Invite
             </Text>
@@ -136,10 +140,10 @@ export function MembersManagementPage({
       </View>
 
       {showInvite && (
-        <View className='p-4 border-b border-neutral-200 bg-gray-50'>
+        <View className='p-4 border-b border-border bg-muted'>
           <TextInput
             className={[
-              'border border-gray-300 rounded-lg p-3 bg-white',
+              'border border-input rounded-lg p-3 bg-background',
               size.base,
             ].join(' ')}
             placeholder='Email address'
@@ -154,8 +158,8 @@ export function MembersManagementPage({
               className={[
                 'px-4 py-2 rounded-md border',
                 inviteRole === EntityRole.MEMBER
-                  ? 'border-blue-600 bg-blue-50'
-                  : 'border-gray-300',
+                  ? 'border-primary bg-primary/10'
+                  : 'border-input',
               ].join(' ')}
               onPress={() => setInviteRole(EntityRole.MEMBER)}
             >
@@ -163,8 +167,8 @@ export function MembersManagementPage({
                 className={[
                   weight.semibold,
                   inviteRole === EntityRole.MEMBER
-                    ? 'text-blue-600'
-                    : 'text-gray-500',
+                    ? 'text-primary'
+                    : 'text-muted-foreground',
                 ].join(' ')}
               >
                 Member
@@ -174,8 +178,8 @@ export function MembersManagementPage({
               className={[
                 'px-4 py-2 rounded-md border',
                 inviteRole === EntityRole.MANAGER
-                  ? 'border-blue-600 bg-blue-50'
-                  : 'border-gray-300',
+                  ? 'border-primary bg-primary/10'
+                  : 'border-input',
               ].join(' ')}
               onPress={() => setInviteRole(EntityRole.MANAGER)}
             >
@@ -183,8 +187,8 @@ export function MembersManagementPage({
                 className={[
                   weight.semibold,
                   inviteRole === EntityRole.MANAGER
-                    ? 'text-blue-600'
-                    : 'text-gray-500',
+                    ? 'text-primary'
+                    : 'text-muted-foreground',
                 ].join(' ')}
               >
                 Manager
@@ -198,13 +202,15 @@ export function MembersManagementPage({
                 setInviteEmail('');
               }}
             >
-              <Text className={['text-gray-500', weight.semibold].join(' ')}>
+              <Text
+                className={['text-muted-foreground', weight.semibold].join(' ')}
+              >
                 Cancel
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               className={[
-                'px-4 py-2 rounded-md bg-blue-600',
+                'px-4 py-2 rounded-md bg-primary',
                 !inviteEmail.trim() || createInvitation.isPending
                   ? 'opacity-50'
                   : '',
@@ -214,7 +220,11 @@ export function MembersManagementPage({
               onPress={handleInvite}
               disabled={!inviteEmail.trim() || createInvitation.isPending}
             >
-              <Text className={['text-white', weight.semibold].join(' ')}>
+              <Text
+                className={['text-primary-foreground', weight.semibold].join(
+                  ' '
+                )}
+              >
                 {createInvitation.isPending ? 'Sending...' : 'Send Invite'}
               </Text>
             </TouchableOpacity>
@@ -226,25 +236,25 @@ export function MembersManagementPage({
         data={members ?? []}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <View className='flex-row justify-between items-center p-4 border-b border-gray-100'>
+          <View className='flex-row justify-between items-center p-4 border-b border-border'>
             <View className='flex-1'>
               <Text
                 className={[
                   'text-[15px]',
                   weight.semibold,
-                  'text-gray-900',
+                  'text-foreground',
                 ].join(' ')}
               >
                 {item.userId}
               </Text>
-              <Text className='text-[13px] text-gray-500 mt-0.5 capitalize'>
+              <Text className='text-[13px] text-muted-foreground mt-0.5 capitalize'>
                 {item.role}
               </Text>
             </View>
             {canManage && item.role !== EntityRole.OWNER && (
               <View className='flex-row gap-2'>
                 <TouchableOpacity
-                  className='px-2.5 py-1.5 rounded border border-gray-300'
+                  className='px-2.5 py-1.5 rounded border border-border'
                   onPress={() =>
                     handleRoleChange(
                       item.id,
@@ -255,21 +265,25 @@ export function MembersManagementPage({
                   }
                 >
                   <Text
-                    className={[size.xs, weight.semibold, 'text-gray-700'].join(
-                      ' '
-                    )}
+                    className={[
+                      size.xs,
+                      weight.semibold,
+                      'text-foreground',
+                    ].join(' ')}
                   >
                     {item.role === EntityRole.MANAGER ? 'Demote' : 'Promote'}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  className='px-2.5 py-1.5 rounded border border-red-200'
+                  className='px-2.5 py-1.5 rounded border border-destructive'
                   onPress={() => handleRemoveMember(item.id, item.userId)}
                 >
                   <Text
-                    className={[size.xs, weight.semibold, 'text-red-500'].join(
-                      ' '
-                    )}
+                    className={[
+                      size.xs,
+                      weight.semibold,
+                      'text-destructive',
+                    ].join(' ')}
                   >
                     Remove
                   </Text>
@@ -280,7 +294,7 @@ export function MembersManagementPage({
         )}
         ListEmptyComponent={
           <View className='p-10 items-center'>
-            <Text className={[size.sm, 'text-gray-400'].join(' ')}>
+            <Text className={[size.sm, 'text-muted-foreground'].join(' ')}>
               No members
             </Text>
           </View>
@@ -288,9 +302,11 @@ export function MembersManagementPage({
         ListFooterComponent={
           invitations && invitations.length > 0 ? (
             <View>
-              <View className='flex-row justify-between items-center p-4 border-b border-neutral-200'>
+              <View className='flex-row justify-between items-center p-4 border-b border-border'>
                 <Text
-                  className={[size.lg, weight.bold, 'text-gray-900'].join(' ')}
+                  className={[size.lg, weight.bold, 'text-foreground'].join(
+                    ' '
+                  )}
                 >
                   Pending Invitations
                 </Text>
@@ -298,32 +314,32 @@ export function MembersManagementPage({
               {invitations.map((inv: any) => (
                 <View
                   key={inv.id}
-                  className='flex-row justify-between items-center p-4 border-b border-gray-100'
+                  className='flex-row justify-between items-center p-4 border-b border-border'
                 >
                   <View className='flex-1'>
                     <Text
                       className={[
                         'text-[15px]',
                         weight.semibold,
-                        'text-gray-900',
+                        'text-foreground',
                       ].join(' ')}
                     >
                       {inv.email}
                     </Text>
-                    <Text className='text-[13px] text-amber-500 mt-0.5'>
+                    <Text className='text-[13px] text-warning mt-0.5'>
                       Pending - {inv.role}
                     </Text>
                   </View>
                   {canManage && (
                     <TouchableOpacity
-                      className='px-2.5 py-1.5 rounded border border-red-200'
+                      className='px-2.5 py-1.5 rounded border border-destructive'
                       onPress={() => handleCancelInvitation(inv.id)}
                     >
                       <Text
                         className={[
                           size.xs,
                           weight.semibold,
-                          'text-red-500',
+                          'text-destructive',
                         ].join(' ')}
                       >
                         Cancel
