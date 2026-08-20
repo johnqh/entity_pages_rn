@@ -1,5 +1,10 @@
 # entity_pages_rn - AI Development Guide
 
+> **Git policy — never auto-commit or auto-push.** Leave your work in the working tree.
+> Run `git commit`, `git push`, `gh pr create`, or `scripts/push_all.sh` **only when the user
+> explicitly asks in that turn**. Approval for an earlier change does not carry forward, and
+> finishing a task is not permission to commit it.
+
 ## Overview
 
 React Native page components for entity/organization management. Provides ready-to-use screens for entity listing, member management, invitations, and terms of service acceptance. Uses `@sudobility/entity_client` hooks for data fetching via TanStack Query.
@@ -73,3 +78,7 @@ bun run typecheck    # TypeScript check (no emit)
 
 - **entity_client** (`@sudobility/entity_client`) -- provides `EntityClient` and all TanStack Query hooks used by these pages.
 - **entity_pages** (`@sudobility/entity_pages`) -- web counterpart of this package.
+
+## Git Workflow
+
+- Do not use feature branches for code changes. Always stay on the current branch.
