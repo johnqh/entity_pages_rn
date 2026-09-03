@@ -27,7 +27,7 @@
         "vitest": "^4.0.0",
       },
       "peerDependencies": {
-        "@sudobility/design": "^1.1.49",
+        "@sudobility/design": "^1.1.51",
         "@sudobility/entity_client": "^0.0.41",
         "@sudobility/types": "^1.9.67",
         "@tanstack/react-query": ">=5",
